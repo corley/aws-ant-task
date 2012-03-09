@@ -1,0 +1,7 @@
+.project
+.settings
+.buildpath
+.classpath
+*.jar
+build.xml
+bin
