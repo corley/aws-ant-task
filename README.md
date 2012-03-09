@@ -18,3 +18,13 @@
     </target>
 </project>
 ```
+
+## Install task
+
+You have to download the latest ```aws-ant-task.jar``` binary file and add it
+into your project. Configure a new task as previous example.
+
+## Compile it
+
+If you want to compile by yourself you can use the ```build.xml.dist```. Move it
+as ```build.xml``` and run the ```jar``` task.
