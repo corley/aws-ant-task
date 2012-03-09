@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="MyTask" basedir="." default="jar">
+	
+	<property name="version">1.0</property>
+
+    <target name="compile" description="Compiles the Task">
+        <javac srcdir="src" destdir="classes"/>
+    </target>
+
+    <target name="jar" description="JARs the Task">
+        <jar destfile="aws-ant-task-${version}.jar" basedir="bin">
+        	<zipfileset excludes="META-INF/*.SF" src="lib/aws-java-sdk-1.3.3.jar"/>
+        	<zipfileset excludes="META-INF/*.SF" src="lib/httpclient-4.1.1.jar"/>
+        	<zipfileset excludes="META-INF/*.SF" src="lib/httpcore-4.1.jar"/>
+        	<zipfileset excludes="META-INF/*.SF" src="lib/commons-logging-1.1.1.jar"/>
+        	<zipfileset excludes="META-INF/*.SF" src="lib/commons-codec-1.3.jar"/>
+    	</jar>
+    </target>
+	
+	<target name="use" description="Use the Task" depends="jar">
+        <taskdef name="cloudfront" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.CloudFront" />
+        <cloudfront key="your-key" secret="your-secret" distributionId="your-distribution">
+        	<delete path="/prod/scripts/icm/order.js"/>
+        </cloudfront>
+    </target>
+</project>
