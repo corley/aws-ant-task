@@ -2,6 +2,6 @@
 .settings
 .buildpath
 .classpath
-*.jar
+aws-ant-task.jar
 build.xml
 bin
