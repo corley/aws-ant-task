@@ -6,7 +6,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="MyProjectName" basedir="." default="cdn-invalidation">
 	
-	<!-- Other informations -->
+	<!-- Other ant tasks -->
 	
 	<target name="cdn-invalidation" description="Invalidation of static files">
         <taskdef name="cloudfront" classpath="aws-ant-task.jar" classname="it.corley.ant.CloudFront" />
