@@ -28,6 +28,18 @@ Added a very simple S3 task that enable a single upload.
 <s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file bundleUpload="path/file/to"/>
 ```
 
+### SimpleDB Task
+
+You can insert new rows into your SimpleDB domain using
+
+```xml
+<taskdef name="simpledb" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.SimpleDB" />
+<simpledb key="your-key" secret="your-secret" domain="your-domain" region="your-sdb-region">
+    <attribute name="my_property" value="my first value" />
+    <attribute name="another_property" value="value for this property" />
+</simpledb>
+```
+
 ## Install task
 
 You have to download the latest ```aws-ant-task.jar``` binary file and add it
