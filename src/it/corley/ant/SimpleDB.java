@@ -6,9 +6,6 @@ import java.util.Date;
 import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
-
-import sun.text.normalizer.Replaceable;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -52,14 +49,6 @@ public class SimpleDB extends AWSTask {
 		request.setItemName(dateformat.format(date));
 		
 		simpledb.putAttributes(request);
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	public void setSecret(String secret) {
-		this.secret = secret;
 	}
 	
 	public void setFail(boolean fail)
