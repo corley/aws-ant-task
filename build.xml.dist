@@ -33,10 +33,16 @@
         <taskdef name="cloudfront" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.CloudFront" />
         <taskdef name="s3" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.S3" />
         <taskdef name="simpledb" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.SimpleDB" />
+        
         <cloudfront key="your-key" secret="your-secret" distributionId="your-distribution">
             <delete path="/prod/scripts/icm/order.js"/>
         </cloudfront>
-        <s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file bundleUpload="path/file/to"/>
+        
+        <s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file>
+            <fileset dir="my/dir" includes="**/*.html" />
+            <fileset dir="my/dir" includes="**/*.jpg" />
+        </s3>
+        
         <simpledb key="your-key" secret="your-secret" domain="your-domain" region="your-sdb-region">
             <attribute name="filename" value="walter" />
             <attribute name="bucket" value="bucket" />

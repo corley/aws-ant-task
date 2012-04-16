@@ -21,11 +21,13 @@
 
 ### Simple S3 Task
 
-Added a very simple S3 task that enable a single upload.
+Added a very simple S3 task that enable files upload
 
 ```xml
 <taskdef name="s3" classpath="aws-ant-task.jar" classname="it.corley.ant.S3" />
-<s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file bundleUpload="path/file/to"/>
+<s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file>
+    <fileset dir="my/dir" includes="**/*.html" />
+</s3>
 ```
 
 ### SimpleDB Task
