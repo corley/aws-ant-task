@@ -2,7 +2,7 @@
 
 ***Actually only CloudFront invalidation request is provided.***
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <project name="MyProjectName" basedir="." default="cdn-invalidation">
 	
@@ -17,6 +17,15 @@
         </cloudfront>
     </target>
 </project>
+```
+
+### Simple S3 Task
+
+Added a very simple S3 task that enable a single upload.
+
+```xml
+<taskdef name="s3" classpath="aws-ant-task.jar" classname="it.corley.ant.S3" />
+<s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file bundleUpload="path/file/to"/>
 ```
 
 ## Install task
