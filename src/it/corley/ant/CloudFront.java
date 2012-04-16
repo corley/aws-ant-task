@@ -14,24 +14,12 @@ import com.amazonaws.services.cloudfront.model.CreateInvalidationRequest;
 import com.amazonaws.services.cloudfront.model.CreateInvalidationResult;
 import com.amazonaws.services.cloudfront.model.InvalidationBatch;
 
-public class CloudFront extends Task 
+public class CloudFront extends AWSTask 
 {
-	private String key;
-	private String secret;
 	private String distibutionId;
 	boolean fail = false;
 	
 	Vector<Delete> delete = new Vector<Delete>();
-	
-	public void setKey(String key)
-	{
-		this.key = key;
-	}
-	
-	public void setSecret(String secret)
-	{
-		this.secret = secret;
-	}
 	
 	public void setDistributionId(String distributionId)
 	{
@@ -45,9 +33,9 @@ public class CloudFront extends Task
     public void execute() {
         if (fail) throw new BuildException("Fail requested.");
 
-        log("Executing invalidation for key : " + this.key + " on distribution id: " + this.distibutionId);
+        log("Executing invalidation for key : " + this.getKey() + " on distribution id: " + this.distibutionId);
         
-    	AWSCredentials credential = new BasicAWSCredentials(key, secret);
+    	AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
     	AmazonCloudFront front = new AmazonCloudFrontClient(credential);
     	
     	CreateInvalidationRequest invalidationRequest = new CreateInvalidationRequest();
