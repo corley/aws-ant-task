@@ -17,10 +17,7 @@ import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 
-public class SimpleDB extends Task {
-	private String key;
-	private String secret;
-	
+public class SimpleDB extends AWSTask {
 	private String region;
 	private String domain;
 	
@@ -32,7 +29,7 @@ public class SimpleDB extends Task {
 	{
 		if (fail) throw new BuildException("Fail requested.");
 		
-		AWSCredentials credential = new BasicAWSCredentials(key, secret);
+		AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
 		AmazonSimpleDB simpledb = new AmazonSimpleDBClient(credential);
 		simpledb.setEndpoint(region);
 
