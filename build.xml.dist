@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="MyTask" basedir="." default="jar">
-	
+    
     <property name="lib">${basedir}/lib</property>
     <property name="version">1.0</property>
     
@@ -18,11 +18,23 @@
             <classpath refid="master-classpath"/>
         </javac>
     </target>
-	
-	<target name="use" description="Use the Task" depends="jar">
+
+    <target name="jar" description="JARs the Task" depends="compile">
+        <jar destfile="aws-ant-task-${version}.jar" basedir="${basedir}/bin">
+            <zipfileset excludes="META-INF/*.SF" src="lib/aws-java-sdk-1.3.3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/httpclient-4.1.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/httpcore-4.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/commons-logging-1.1.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/commons-codec-1.3.jar"/>
+        </jar>
+    </target>
+    
+    <target name="use" description="Use the Task" depends="jar">
         <taskdef name="cloudfront" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.CloudFront" />
+        <taskdef name="s3" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.S3" />
         <cloudfront key="your-key" secret="your-secret" distributionId="your-distribution">
-        	<delete path="/prod/scripts/icm/order.js"/>
+            <delete path="/prod/scripts/icm/order.js"/>
         </cloudfront>
+        <s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file bundleUpload="path/file/to"/>
     </target>
 </project>
