@@ -1,6 +1,10 @@
 #Simple AWS ANT Task
 
-***Actually only CloudFront invalidation request is provided.***
+Features:
+
+ * CloudFront invalidation requests
+ * S3 File upload using fileset strategy
+ * SimpleDB insert rows [dynamic attributes]
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
