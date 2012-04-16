@@ -56,7 +56,7 @@ public class S3 extends Task {
 		if (fail) throw new BuildException("Fail requested.");
 		
 		AWSCredentials credential = new BasicAWSCredentials(key, secret);
-		AmazonS3 s3 = new AmazonS3Client();
+		AmazonS3 s3 = new AmazonS3Client(credential);
 		
 		File file = new File(bundleUpload);
 		PutObjectRequest por = new PutObjectRequest(bucket, dest, file);
