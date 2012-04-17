@@ -11,10 +11,12 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 public class S3 extends AWSTask {
 
+	private boolean publicRead = false;
 	private String bucket;
 	private String dest;
 	boolean fail = false;
@@ -50,13 +52,18 @@ public class S3 extends AWSTask {
 				DirectoryScanner ds = fs.getDirectoryScanner(getProject());
 				String[] files = ds.getIncludedFiles();
 				File d = fs.getDir(getProject());
-
+				
 				if (files.length > 0) {
 					log("copying " + files.length + " files from " + d.getAbsolutePath());
 					for (int j = 0; j < files.length; j++) {
 						String cleanFilePath = files[j].replace('\\', '/');
 						File file = new File(d, cleanFilePath);
 						PutObjectRequest por = new PutObjectRequest(bucket, dest + "/" + cleanFilePath, file);
+						
+						if (this.isPublicRead()) {
+							por.setCannedAcl(CannedAccessControlList.PublicRead);
+						}
+						
 						s3.putObject(por);
 						log("File: " + cleanFilePath + " copied to bucket: " + bucket + " destination: " + dest);
 					}
@@ -67,5 +74,13 @@ public class S3 extends AWSTask {
 				log(be.getMessage());
 			}
 		}
+	}
+
+	public boolean isPublicRead() {
+		return publicRead;
+	}
+
+	public void setPublicRead(boolean publicRead) {
+		this.publicRead = publicRead;
 	}
 }
