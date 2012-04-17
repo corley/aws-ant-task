@@ -34,7 +34,7 @@ Added a very simple S3 task that enable files upload
 </s3>
 ```
 
-File upload using default (Ant fileset)[http://ant.apache.org/manual/Types/fileset.html] strategy.
+File upload using default [Ant fileset](http://ant.apache.org/manual/Types/fileset.html) strategy.
 
 ### SimpleDB Task
 
