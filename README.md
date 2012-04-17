@@ -48,6 +48,19 @@ File upload using default [Ant fileset](http://ant.apache.org/manual/Types/files
 </s3>
 ```
 
+***Mark public files*** using ```readPublic```
+
+```xml
+<s3 
+    key="your-key" 
+    secret="your-secret" 
+    bucket="your-bucket-name" 
+    dest="path/to/file" 
+    publicRead="true">
+    <!-- fileset structure -->
+</s3>
+```
+
 ### SimpleDB Task
 
 You can insert new rows into your SimpleDB domain using
