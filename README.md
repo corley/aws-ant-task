@@ -48,7 +48,10 @@ File upload using default [Ant fileset](http://ant.apache.org/manual/Types/files
 </s3>
 ```
 
-***Mark public files*** using ```readPublic```
+***Mark public files*** using ```publicRead```
+
+***Consider that public property (Grant Everyone open/doownload) is marked on each file scanned 
+by fileset directive. Your bucket rule is never touched.***
 
 ```xml
 <s3 
