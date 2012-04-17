@@ -36,6 +36,18 @@ Added a very simple S3 task that enable files upload
 
 File upload using default [Ant fileset](http://ant.apache.org/manual/Types/fileset.html) strategy.
 
+```xml
+<taskdef name="s3" classpath="aws-ant-task.jar" classname="it.corley.ant.S3" />
+<s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file">
+  <fileset dir="${public.src}" casesensitive="yes">
+    <patternset id="non.test.sources">
+      <include name="**/*.js"/>
+      <exclude name="**/*Test*"/>
+    </patternset>
+  </fileset>
+</s3>
+```
+
 ### SimpleDB Task
 
 You can insert new rows into your SimpleDB domain using
