@@ -12,7 +12,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
 
 public class S3 extends AWSTask {
 
@@ -21,7 +20,6 @@ public class S3 extends AWSTask {
 	boolean fail = false;
 
 	protected Vector<FileSet> filesets = new Vector<FileSet>();
-
 
 	public void setBucket(String bucket) {
 		this.bucket = bucket;
@@ -57,7 +55,7 @@ public class S3 extends AWSTask {
 					log("copying " + files.length + " files from " + d.getAbsolutePath());
 					for (int j = 0; j < files.length; j++) {
 						String cleanFilePath = files[j].replace('\\', '/');
-						File file = new File(fs.getDir(getProject()), cleanFilePath);
+						File file = new File(d, cleanFilePath);
 						PutObjectRequest por = new PutObjectRequest(bucket, dest + "/" + cleanFilePath, file);
 						s3.putObject(por);
 						log("File: " + cleanFilePath + " copied to bucket: " + bucket + " destination: " + dest);
