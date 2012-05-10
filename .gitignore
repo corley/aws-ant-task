@@ -8,3 +8,4 @@ build.xml
 bin
 target
 *.iml
+test.properties

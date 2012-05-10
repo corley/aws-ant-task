@@ -1,18 +1,19 @@
 package it.corley.ant;
 
-import java.io.File;
-import java.util.*;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.types.FileSet;
-
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.types.FileSet;
+
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 public class S3PutTask extends AWSTask {
 
@@ -28,7 +29,7 @@ public class S3PutTask extends AWSTask {
     private String bucket;
 
     /**
-     *
+     * Destination dir on the S3 to which files should be uploaded.
      */
     private String dest;
 
@@ -40,7 +41,7 @@ public class S3PutTask extends AWSTask {
     /**
      * Filesets containing content to be uploaded
      */
-    protected Vector<FileSet> filesets = new Vector<FileSet>();
+    protected List<FileSet> filesets = new LinkedList<FileSet>();
 
     /**
      * List of Content-Type mappings - allowing fine tune configuration useful, when uploading multiple files
@@ -56,8 +57,10 @@ public class S3PutTask extends AWSTask {
      * @see org.apache.tools.ant.Task#execute()
      */
     public void execute() {
+        validateConfiguration();
         AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
         AmazonS3 s3 = new AmazonS3Client(credential);
+        s3.setEndpoint(region);
 
         for (FileSet fs : filesets) {
             try {
@@ -66,41 +69,49 @@ public class S3PutTask extends AWSTask {
                 File d = fs.getDir(getProject());
 
                 if (files.length > 0) {
-                    log("copying " + files.length + " files from " + d.getAbsolutePath());
-                    for (String file1 : files) {
-                        String cleanFilePath = file1.replace('\\', '/');
+                    log("Uploading " + files.length + " files from " + d.getAbsolutePath());
+                    for (String filePath : files) {
+                        String cleanFilePath = filePath.replace('\\', '/');
                         File file = new File(d, cleanFilePath);
                         PutObjectRequest por = new PutObjectRequest(bucket, dest + "/" + cleanFilePath, file);
 
-                        if (this.isPublicRead()) {
-                            por.setCannedAcl(CannedAccessControlList.PublicRead);
-                        }
-                        applyContentType(file, por);
-
-
+                        applyMetadata(file, por);
                         s3.putObject(por);
                         log("File: " + cleanFilePath + " copied to bucket: " + bucket + " destination: " + dest);
                     }
                 }
             } catch (BuildException be) {
                 // directory doesn't exist or is not readable
-                log("Could not copy file(s) to Amazon S3PutTask");
+                log("Could not upload file(s) to Amazon S3PutTask");
                 log(be.getMessage());
             }
         }
     }
 
-    private void applyContentType(File file, PutObjectRequest por) {
+    private void applyMetadata(File file, PutObjectRequest por) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        if (isPublicRead()) {
+            por.setCannedAcl(CannedAccessControlList.PublicRead);
+        }
         if (contentType != null) {
-            por.getMetadata().setContentType(contentType);
+            metadata.setContentType(contentType);
         } else {
             String fileName = file.getName();
             for (ContentTypeMapping mapping : contentTypeMappings) {
                 if (fileName.endsWith(mapping.getExtension())) {
-                    por.getMetadata().setContentType(mapping.getContentType());
+                    metadata.setContentType(mapping.getContentType());
+                    break;
                 }
             }
         }
+        por.setMetadata(metadata);
+    }
+
+    private void validateConfiguration() {
+        if (bucket == null) {
+            throw new BuildException("Target bucket not given. Cannot upload");
+        }
+//        TODO add other properties
     }
 
     /**
@@ -134,7 +145,7 @@ public class S3PutTask extends AWSTask {
     }
 
     public void addFileset(FileSet set) {
-        filesets.addElement(set);
+        filesets.add(set);
     }
 
 }
