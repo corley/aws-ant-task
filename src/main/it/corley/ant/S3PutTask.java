@@ -91,7 +91,7 @@ public class S3PutTask extends AWSTask {
                 File d = fs.getDir(getProject());
 
                 if (files.length > 0) {
-                    log("Uploading " + files.length + " files from " + d.getAbsolutePath());
+                    log("Uploading " + files.length + " file(s) from " + d.getAbsolutePath());
                     for (String filePath : files) {
                         String cleanFilePath = filePath.replace('\\', '/');
                         File file = new File(d, cleanFilePath);
@@ -115,16 +115,17 @@ public class S3PutTask extends AWSTask {
         if (isPublicRead()) {
             por.setCannedAcl(CannedAccessControlList.PublicRead);
         }
-        if (contentType != null) {
-            metadata.setContentType(contentType);
-        } else {
-            String fileName = file.getName();
-            for (ContentTypeMapping mapping : contentTypeMappings) {
-                if (fileName.endsWith(mapping.getExtension())) {
-                    metadata.setContentType(mapping.getContentType());
-                    break;
-                }
+        boolean metadataSet = false;
+        String fileName = file.getName();
+        for (ContentTypeMapping mapping : contentTypeMappings) {
+            if (fileName.endsWith(mapping.getExtension())) {
+                metadata.setContentType(mapping.getContentType());
+                metadataSet = true;
+                break;
             }
+        }
+        if (contentType != null && !metadataSet) {
+            metadata.setContentType(contentType);
         }
         por.setMetadata(metadata);
     }
