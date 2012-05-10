@@ -20,7 +20,6 @@
                dest="aws-task-tests" region="EU" publicread="true" contentType="application/x-readme">
             <fileset dir="." includes="README.md"/>
             <contenttypemapping extension="md" contenttype=""/>
-
         </s3put>
 
     </target>

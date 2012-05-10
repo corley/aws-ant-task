@@ -81,7 +81,7 @@ Global Content-Type configuration:
 
 Content-Type mappers:
 ```xml
-<typedef name="contenttype.mapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
+<typedef name="contenttypemapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
 <s3put
     key="your-key"
     secret="your-secret"
@@ -89,8 +89,8 @@ Content-Type mappers:
     dest="path/to/file"
     contentType="application/x-whatever">
     <fileset dir="dist" include="**/*"/>
-    <contenttype.mapping extension=".crx" contenttype="application/x-chrome-extension"/>
-    <contenttype.mapping extension=".xpi" contenttype="application/x-xpinstall"/>
+    <contenttypemapping extension=".crx" contenttype="application/x-chrome-extension"/>
+    <contenttypemapping extension=".xpi" contenttype="application/x-xpinstall"/>
 </s3put>
 
 ```
