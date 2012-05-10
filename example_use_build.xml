@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="MyTask" basedir="." default="jar">
+    
+    <property name="lib">${basedir}/lib</property>
+    <property name="version">1.0</property>
+    
+    <path id="master-classpath">
+      <fileset dir="${lib}">
+        <include name="*.jar"/>
+      </fileset>
+
+      <pathelement path="${build.dir}"/>
+    </path>
+
+    <target name="compile" description="Compiles the Task">
+        <javac destdir="${basedir}/bin">
+            <src path="${basedir}/src" />
+            <classpath refid="master-classpath"/>
+        </javac>
+    </target>
+
+    <target name="jar" description="JARs the Task" depends="compile">
+        <jar destfile="aws-ant-task-${version}.jar" basedir="${basedir}/bin">
+            <zipfileset excludes="META-INF/*.SF" src="lib/aws-java-sdk-1.3.3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/httpclient-4.1.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/httpcore-4.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/commons-logging-1.1.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/commons-codec-1.3.jar"/>
+        </jar>
+    </target>
+    
+    <target name="use" description="Use the Task" depends="jar">
+        <taskdef name="cloudfront" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.CloudFront" />
+        <taskdef name="s3" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.S3PutTask" />
+        <taskdef name="simpledb" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.SimpleDB" />
+        
+        <cloudfront key="your-key" secret="your-secret" distributionId="your-distribution">
+            <delete path="/prod/scripts/icm/order.js"/>
+        </cloudfront>
+        
+        <s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file>
+            <fileset dir="my/dir" includes="**/*.html" />
+            <fileset dir="my/dir" includes="**/*.jpg" />
+        </s3>
+        
+        <simpledb key="your-key" secret="your-secret" domain="your-domain" region="your-sdb-region">
+            <attribute name="filename" value="walter" />
+            <attribute name="bucket" value="bucket" />
+        </simpledb>
+        
+        <!--
+            SimpleDB regions
+            
+            US East (Northern Virginia) Region  sdb.amazonaws.com
+            US West (Oregon) Region sdb.us-west-2.amazonaws.com
+            US West (Northern California) Region    sdb.us-west-1.amazonaws.com
+            EU (Ireland) Region sdb.eu-west-1.amazonaws.comsdb.eu-west-1.amazonaws.com
+            Asia Pacific (Singapore) Region sdb.ap-southeast-1.amazonaws.com
+            Asia Pacific (Tokyo) Region sdb.ap-northeast-1.amazonaws.com
+            South America (Sao Paulo) Region    sdb.sa-east-1.amazonaws.com 
+        -->
+    </target>
+</project>
