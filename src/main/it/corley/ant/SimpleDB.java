@@ -7,13 +7,24 @@ import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Vector;
+import java.util.*;
 
 public class SimpleDB extends AWSTask {
+
+    private static final Map<String, String> REGION_2_ENDPOINT = new HashMap<String, String>();
+
+    static {
+        REGION_2_ENDPOINT.put("EU", "sdb.eu-west-1.amazonaws.com");
+        REGION_2_ENDPOINT.put("us-west-1", "sdb.us-west-1.amazonaws.com");
+        REGION_2_ENDPOINT.put("us-west-2", "sdb.us-west-2.amazonaws.com");
+        REGION_2_ENDPOINT.put("ap-southeast-1", "sdb.ap-southeast-1.amazonaws.com");
+        REGION_2_ENDPOINT.put("ap-northeast-1", "sdb.ap-northeast-1.amazonaws.com");
+        REGION_2_ENDPOINT.put("sa-east-1", "sdb.sa-east-1.amazonaws.com");
+    }
+
     private String domain;
 
     boolean fail = false;
@@ -25,7 +36,15 @@ public class SimpleDB extends AWSTask {
 
         AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
         AmazonSimpleDB simpledb = new AmazonSimpleDBClient(credential);
-        simpledb.setEndpoint(region);
+        if (region != null) {
+            if (REGION_2_ENDPOINT.containsKey(region)) {
+                simpledb.setEndpoint(REGION_2_ENDPOINT.get(region));
+            } else {
+                log("Region " + region + " given but not found in the region to endpoint map. Will use it as an endpoint",
+                        Project.MSG_WARN);
+                simpledb.setEndpoint(region);
+            }
+        }
 
         Collection<ReplaceableAttribute> attrs = new Vector<ReplaceableAttribute>();
 
