@@ -54,7 +54,7 @@
             US East (Northern Virginia) Region  sdb.amazonaws.com
             US West (Oregon) Region sdb.us-west-2.amazonaws.com
             US West (Northern California) Region    sdb.us-west-1.amazonaws.com
-            EU (Ireland) Region sdb.eu-west-1.amazonaws.com
+            EU (Ireland) Region sdb.eu-west-1.amazonaws.comsdb.eu-west-1.amazonaws.com
             Asia Pacific (Singapore) Region sdb.ap-southeast-1.amazonaws.com
             Asia Pacific (Tokyo) Region sdb.ap-northeast-1.amazonaws.com
             South America (Sao Paulo) Region    sdb.sa-east-1.amazonaws.com 

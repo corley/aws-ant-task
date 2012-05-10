@@ -2,7 +2,7 @@ package it.corley.ant;
 
 /**
  * Class representing a content type mapping.
- *
+ * <p/>
  * Content type mapping maps a content type
  *
  * @author Tadeusz Kozak
@@ -19,6 +19,14 @@ public class ContentTypeMapping {
      * Content-Type part of the mapping.
      */
     private String contentType;
+
+    public ContentTypeMapping() {
+    }
+
+    public ContentTypeMapping(String extension, String contentType) {
+        this.extension = extension;
+        this.contentType = contentType;
+    }
 
     public String getExtension() {
         return extension;
