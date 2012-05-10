@@ -1,0 +1,8 @@
+# For tests to run successfully, copy this file to test.properties fill accordingly and never add to repo.
+# The test.properties file is defined in .gitignore so you really need to want to publish it.
+
+
+test.aws.access_key=OVERRIDE ME
+test.aws.secret_key=OVERRIDE ME
+test.aws.region=OVERRIDE ME
+test.aws.bucket=OVERRIDE ME
