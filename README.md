@@ -150,4 +150,4 @@ directory. Just copy it whenever you like and use external classpath when defini
 </target>
 ```
 
-Or copy them to the $ANT_HOME/libs directory.
+Or copy them to the $ANT_HOME/libs directory and use directly, without specifying the classpath.
