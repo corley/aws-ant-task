@@ -31,7 +31,7 @@
     
     <target name="use" description="Use the Task" depends="jar">
         <taskdef name="cloudfront" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.CloudFront" />
-        <taskdef name="s3" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.S3" />
+        <taskdef name="s3" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.S3PutTask" />
         <taskdef name="simpledb" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.SimpleDB" />
         
         <cloudfront key="your-key" secret="your-secret" distributionId="your-distribution">
@@ -54,7 +54,7 @@
             US East (Northern Virginia) Region  sdb.amazonaws.com
             US West (Oregon) Region sdb.us-west-2.amazonaws.com
             US West (Northern California) Region    sdb.us-west-1.amazonaws.com
-            EU (Ireland) Region sdb.eu-west-1.amazonaws.com
+            EU (Ireland) Region sdb.eu-west-1.amazonaws.comsdb.eu-west-1.amazonaws.com
             Asia Pacific (Singapore) Region sdb.ap-southeast-1.amazonaws.com
             Asia Pacific (Tokyo) Region sdb.ap-northeast-1.amazonaws.com
             South America (Sao Paulo) Region    sdb.sa-east-1.amazonaws.com 

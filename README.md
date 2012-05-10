@@ -28,7 +28,7 @@ Features:
 Added a very simple S3 task that enable files upload
 
 ```xml
-<taskdef name="s3" classpath="aws-ant-task.jar" classname="it.corley.ant.S3" />
+<taskdef name="s3" classpath="aws-ant-task.jar" classname="it.corley.ant.S3PutTask" />
 <s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file">
     <fileset dir="my/dir" includes="**/*.html" />
 </s3>
@@ -37,32 +37,67 @@ Added a very simple S3 task that enable files upload
 File upload using default [Ant fileset](http://ant.apache.org/manual/Types/fileset.html) strategy.
 
 ```xml
-<taskdef name="s3" classpath="aws-ant-task.jar" classname="it.corley.ant.S3" />
-<s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file">
+<taskdef name="s3put" classpath="aws-ant-task.jar" classname="it.corley.ant.S3PutTask" />
+<s3put key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file">
   <fileset dir="${public.src}" casesensitive="yes">
     <patternset id="non.test.sources">
       <include name="**/*.js"/>
       <exclude name="**/*Test*"/>
     </patternset>
   </fileset>
-</s3>
+</s3put>
 ```
 
 ***Mark public files*** using ```publicRead```
 
-***Consider that public property (Grant Everyone open/doownload) is marked on each file scanned 
+***Consider that public property (Grant Everyone open/doownload) is marked on each file scanned
 by fileset directive. Your bucket rule is never touched.***
 
 ```xml
-<s3 
-    key="your-key" 
-    secret="your-secret" 
-    bucket="your-bucket-name" 
-    dest="path/to/file" 
+<s3put
+    key="your-key"
+    secret="your-secret"
+    bucket="your-bucket-name"
+    dest="path/to/file"
     publicRead="true">
     <!-- fileset structure -->
-</s3>
+</s3put>
 ```
+
+***Easily configure content types*** using ```contentType property or ContentTypeMapping type```
+
+Global Content-Type configuration:
+
+```xml
+<s3put
+    key="your-key"
+    secret="your-secret"
+    bucket="your-bucket-name"
+    dest="path/to/file"
+    contentType="application/x-whatever">
+    <!-- fileset structure -->
+</s3put>
+```
+
+Content-Type mappers:
+```xml
+<typedef name="contenttypemapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
+<s3put
+    key="your-key"
+    secret="your-secret"
+    bucket="your-bucket-name"
+    dest="path/to/file"
+    contentType="application/x-whatever">
+    <fileset dir="dist" include="**/*"/>
+    <contenttypemapping extension=".crx" contenttype="application/x-chrome-extension"/>
+    <contenttypemapping extension=".xpi" contenttype="application/x-xpinstall"/>
+</s3put>
+
+```
+Note then when setting global content-type using contentType property of the s3put task
+and setting mapping using contenttype.mapping, the mapping takes precedence if given.
+
+
 
 ### SimpleDB Task
 
@@ -76,12 +111,45 @@ You can insert new rows into your SimpleDB domain using
 </simpledb>
 ```
 
-## Install task
-
 You have to download the latest ```aws-ant-task.jar``` binary file and add it
 into your project. Configure a new task as previous example.
 
-## Compile it
+## Building and installing
 
-If you want to compile by yourself you can use the ```build.xml.dist```. Move it
-as ```build.xml``` and run the ```jar``` task.
+With tests:
+
+```
+cp test.properties.dist test.properties
+# Fill the test.properties accordingly
+mvn package
+```
+
+or without them:
+
+```
+mvn package -Dmaven.test.skip=true
+```
+
+After properly building the tasks, all the jars needed to use them can be found in target/aws-ant-tasks-0.1-SNAPSHOT-bin
+directory. Just copy it whenever you like and use external classpath when defining the tasks:
+
+```xml
+<!-- Task for setting up the aws-ant-tasks -->
+<target name="awstasks.setup">
+    <path id="tasks.path">
+        <fileset dir="target/aws-ant-tasks-0.1-SNAPSHOT-bin" includes="*.jar"/>
+    </path>
+
+    <taskdef name="s3put" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.S3PutTask"
+             classpathref="tasks.path"/>
+    <typedef name="contenttype.mapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
+</target>
+
+
+<!--Actual use -->
+<target name="use" description="Use the Task" depends="awstasks.setup">
+
+</target>
+```
+
+Or copy them to the $ANT_HOME/libs directory and use directly, without specifying the classpath.
