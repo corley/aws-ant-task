@@ -80,6 +80,7 @@ Global Content-Type configuration:
 ```
 
 Content-Type mappers:
+```xml
 <typedef name="contenttype.mapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
 <s3put
     key="your-key"
@@ -92,6 +93,7 @@ Content-Type mappers:
     <contenttype.mapping extension=".xpi" contenttype="application/x-xpinstall"/>
 </s3put>
 
+```
 Note then when setting global content-type using contentType property of the s3put task
 and setting mapping using contenttype.mapping, the mapping takes precedence if given.
 
