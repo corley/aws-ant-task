@@ -2,6 +2,9 @@
 .settings
 .buildpath
 .classpath
+.idea
 aws-ant-task*.jar
 build.xml
 bin
+target
+*.iml
