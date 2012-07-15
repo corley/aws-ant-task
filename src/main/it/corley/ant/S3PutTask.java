@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.StorageClass;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
@@ -65,6 +66,11 @@ public class S3PutTask extends AWSTask {
     private List<ContentTypeMapping> contentTypeMappings = new LinkedList<ContentTypeMapping>();
 
     /**
+     * Whether to use reduced redundancy storage.
+     */
+    private boolean reducedRedundancy;
+    
+    /**
      * Executes the task.
      *
      * @see org.apache.tools.ant.Task#execute()
@@ -83,6 +89,19 @@ public class S3PutTask extends AWSTask {
                 s3.setEndpoint(region);
             }
         }
+        
+        String path;
+        if (dest == null) {
+            path = "";
+        } else {
+            path = dest.trim();
+            if ((! path.isEmpty()) && (! path.endsWith("/"))) {
+                path = path + "/";
+            }
+            if (path.startsWith("/")) {
+                path = path.substring(1);
+            }
+        }
 
         for (FileSet fs : filesets) {
             try {
@@ -95,11 +114,11 @@ public class S3PutTask extends AWSTask {
                     for (String filePath : files) {
                         String cleanFilePath = filePath.replace('\\', '/');
                         File file = new File(d, cleanFilePath);
-                        PutObjectRequest por = new PutObjectRequest(bucket, dest + "/" + cleanFilePath, file);
+                        PutObjectRequest por = new PutObjectRequest(bucket, path + cleanFilePath, file);
 
                         applyMetadata(file, por);
                         s3.putObject(por);
-                        log("File: " + cleanFilePath + " copied to bucket: " + bucket + " destination: " + dest);
+                        log("File: " + cleanFilePath + " copied to bucket: " + bucket + " destination: " + path);
                     }
                 }
             } catch (BuildException be) {
@@ -114,6 +133,9 @@ public class S3PutTask extends AWSTask {
         ObjectMetadata metadata = new ObjectMetadata();
         if (isPublicRead()) {
             por.setCannedAcl(CannedAccessControlList.PublicRead);
+        }
+        if (isReducedRedundancy()) {
+            por.setStorageClass(StorageClass.ReducedRedundancy);
         }
         boolean metadataSet = false;
         String fileName = file.getName();
@@ -169,6 +191,14 @@ public class S3PutTask extends AWSTask {
 
     public void addFileset(FileSet set) {
         filesets.add(set);
+    }
+
+    public boolean isReducedRedundancy() {
+        return reducedRedundancy;
+    }
+
+    public void setReducedRedundancy(boolean reducedRedundancy) {
+        this.reducedRedundancy = reducedRedundancy;
     }
 
 }
