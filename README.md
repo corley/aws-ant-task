@@ -157,7 +157,7 @@ Or copy them to the `$ANT_HOME/libs` directory and use directly, without specify
 ## Contributors
 
 This project is maintained by Corley S.r.l. and released under MIT license. 
-Contributor on this project
+Contributors on this project
 
  * @wdalmut
  * @stoiczek
