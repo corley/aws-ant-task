@@ -4,7 +4,7 @@
 
     <groupId>it.corley</groupId>
     <artifactId>aws-ant-tasks</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
     <name>Aws ant task</name>
     <description>Simple AWS ANT Task</description>
     <url>https://github.com/corley/aws-ant-task</url>
