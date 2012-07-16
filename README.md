@@ -94,8 +94,8 @@ Content-Type mappers:
 </s3put>
 
 ```
-Note then when setting global content-type using contentType property of the s3put task
-and setting mapping using contenttype.mapping, the mapping takes precedence if given.
+Note then when setting global content-type using `contentType` property of the `s3put` task
+and setting mapping using `contenttype.mapping`, the mapping takes precedence if given.
 
 
 
@@ -130,8 +130,8 @@ or without them:
 mvn package -Dmaven.test.skip=true
 ```
 
-After properly building the tasks, all the jars needed to use them can be found in target/aws-ant-tasks-0.1-SNAPSHOT-bin
-directory. Just copy it whenever you like and use external classpath when defining the tasks:
+After properly building the tasks, all the jars needed to use them can be found in `target/aws-ant-tasks-0.1-SNAPSHOT-bin`
+directory. Just copy it whenever you like and use external `classpath` when defining the tasks:
 
 ```xml
 <!-- Task for setting up the aws-ant-tasks -->
@@ -152,4 +152,16 @@ directory. Just copy it whenever you like and use external classpath when defini
 </target>
 ```
 
-Or copy them to the $ANT_HOME/libs directory and use directly, without specifying the classpath.
+Or copy them to the `$ANT_HOME/libs` directory and use directly, without specifying the `classpath`.
+
+## Contributors
+
+This project is maintained by Corley S.r.l. and released under MIT license. 
+Contributor on this project
+
+ * @wdalmut
+ * @stoiczek
+ * Pepijn Schmitz
+
+A special thanks goes to @stoiczek and Pepijn Schmitz who enhanced this library adding
+Maven support, major refactors and bug fixing.
