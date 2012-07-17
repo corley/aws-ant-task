@@ -28,8 +28,23 @@
     </scm>
 
     <developers>
-
+        <developer>
+            <name>Walter Dal Mut</name>
+            <email>walter.dalmut@corley.it</email>
+            <organization>Corley S.r.l.</organization>
+            <organizationUrl>http://www.corley.it/</organizationUrl>
+        </developer>
     </developers>
+    <contributors>
+        <contributor>
+            <name>Pepijn Schmitz</name>
+        </contributor>
+        <contributor>
+            <name>Tadeusz Kozak</name>
+            <organization>Cloudeo</organization>
+            <organizationUrl>http://www.cloudeo.tv/</organizationUrl>
+        </contributor>
+    </contributors>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -134,4 +149,8 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <organization>
+    	<name>Corley S.r.l.</name>
+    	<url>http://www.corley.it</url>
+    </organization>
 </project>
