@@ -6,13 +6,13 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import junit.framework.Assert;
+import junit.framework.TestCase;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.selectors.FileSelector;
 import org.apache.tools.ant.types.selectors.FilenameSelector;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.io.*;
 import java.util.Properties;
@@ -24,13 +24,12 @@ import java.util.Properties;
  * @author Tadeusz Kozak
  * @see it.corley.ant.S3PutTask
  */
-public class S3PutTaskTest {
+public class S3PutTaskTest extends TestCase{
 
     private String bucket;
     S3PutTask task;
     AmazonS3 s3;
 
-    @BeforeMethod
     public void setUp() throws IOException {
         Properties props = new Properties();
         props.load(new FileInputStream("test.properties"));
@@ -51,7 +50,6 @@ public class S3PutTaskTest {
         s3.setEndpoint(region);
     }
 
-    @Test
     public void testSimplePut() throws IOException {
         File tempFile = File.createTempFile("aws-test", ".txt");
         FileWriter str = new FileWriter(tempFile);
@@ -69,7 +67,6 @@ public class S3PutTaskTest {
         s3.deleteObject(bucket, "aws-ant-tasks-test/" + tempFile.getName());
     }
 
-    @Test
     public void testPutPublic() throws IOException {
         File tempFile = File.createTempFile("aws-test", ".txt");
         FileWriter str = new FileWriter(tempFile);
@@ -97,7 +94,6 @@ public class S3PutTaskTest {
         s3.deleteObject(bucket, objectKey);
     }
 
-    @Test
     public void testPutGlobalContentType() throws IOException {
         File tempFile = File.createTempFile("aws-test", ".txt");
         FileWriter str = new FileWriter(tempFile);
@@ -120,7 +116,6 @@ public class S3PutTaskTest {
     }
 
 
-    @Test
     public void testPutContentTypeMapping() throws IOException {
         File tempFile = File.createTempFile("aws-test", ".txt");
         FileWriter str = new FileWriter(tempFile);
@@ -141,6 +136,4 @@ public class S3PutTaskTest {
         Assert.assertEquals(contentType, obj.getObjectMetadata().getContentType());
         s3.deleteObject(bucket, objectKey);
     }
-
-
 }

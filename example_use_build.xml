@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="MyTask" basedir="." default="jar">
+<project name="MyTask" basedir="." default="use">
 
     <!-- Task for setting up the aws-ant-tasks -->
     <target name="awstasks.setup">
