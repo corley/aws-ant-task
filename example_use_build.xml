@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="MyTask" basedir="." default="use">
+    <property name="test.aws.access_key" value="your-value-here" />
+    <property name="test.aws.secret_key" value="your-value-here" />
+    <property name="test.aws.bucket" value="your-value-here" />
 
     <!-- Task for setting up the aws-ant-tasks -->
     <target name="awstasks.setup">
         <path id="tasks.path">
-            <fileset dir="target/aws-ant-tasks-0.1-SNAPSHOT-bin" includes="*.jar"/>
+            <fileset dir="target/aws-ant-tasks-0.3-SNAPSHOT-bin" includes="*.jar"/>
         </path>
 
-        <taskdef name="s3put" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.S3PutTask"
+        <taskdef name="s3put" classpath="aws-ant-tasks-0.3-SNAPSHOT-bin" classname="it.corley.ant.S3PutTask"
                  classpathref="tasks.path"/>
         <typedef name="contenttype.mapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
     </target>
@@ -19,7 +22,7 @@
         <s3put key="${test.aws.access_key}" secret="${test.aws.secret_key}" bucket="${test.aws.bucket}"
                dest="aws-task-tests" region="EU" publicread="true" contentType="application/x-readme">
             <fileset dir="." includes="README.md"/>
-            <contenttypemapping extension="md" contenttype=""/>
+            <contenttypemapping extension="md" contenttype="text/plain"/>
         </s3put>
 
     </target>
