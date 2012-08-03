@@ -97,7 +97,21 @@ Content-Type mappers:
 Note then when setting global content-type using `contentType` property of the `s3put` task
 and setting mapping using `contenttype.mapping`, the mapping takes precedence if given.
 
+***Easily configure cache control*** using ```cacheControl property```
 
+Global Cache-Control configuration:
+
+```xml
+<s3put
+    key="your-key"
+    secret="your-secret"
+    bucket="your-bucket-name"
+    dest="path/to/file"
+    contentType="application/x-whatever"
+    cacheControl="3600">
+    <!-- fileset structure -->
+</s3put>
+```
 
 ### SimpleDB Task
 
