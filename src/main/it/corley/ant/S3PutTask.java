@@ -69,6 +69,7 @@ public class S3PutTask extends AWSTask {
      * @see ContentTypeMapping
      */
     private List<ContentTypeMapping> contentTypeMappings = new LinkedList<ContentTypeMapping>();
+    private List<CacheControlMapping> cacheControlMappings = new LinkedList<CacheControlMapping>();
 
     /**
      * Whether to use reduced redundancy storage.
@@ -155,6 +156,13 @@ public class S3PutTask extends AWSTask {
             metadata.setContentType(contentType);
         }
         boolean cacheControlMetadataSet = false;
+        for (CacheControlMapping mapping : cacheControlMappings) {
+            if (fileName.endsWith(mapping.getExtension())) {
+                metadata.setCacheControl("max-age=" + mapping.getMaxAge());
+                cacheControlMetadataSet = true;
+                break;
+            }
+        }
         //TODO: add single file metadata cache-control
         if (cacheControl != null && !cacheControlMetadataSet) {
         	metadata.setCacheControl("max-age=" + cacheControl);
@@ -208,6 +216,10 @@ public class S3PutTask extends AWSTask {
 
     public void addContentTypeMapping(ContentTypeMapping mapping) {
         contentTypeMappings.add(mapping);
+    }
+    
+    public void addCacheControlMapping(CacheControlMapping mapping) {
+    	cacheControlMappings.add(mapping);
     }
 
     public void addFileset(FileSet set) {
