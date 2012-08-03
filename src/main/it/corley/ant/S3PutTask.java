@@ -51,6 +51,11 @@ public class S3PutTask extends AWSTask {
      * Content-Type to be set globally for each uploaded file.
      */
     private String contentType;
+    
+    /**
+     * Cache-Control to be set globally for each uploaded file.
+     */
+    private String cacheControl;
 
     /**
      * Filesets containing content to be uploaded
@@ -64,6 +69,7 @@ public class S3PutTask extends AWSTask {
      * @see ContentTypeMapping
      */
     private List<ContentTypeMapping> contentTypeMappings = new LinkedList<ContentTypeMapping>();
+    private List<CacheControlMapping> cacheControlMappings = new LinkedList<CacheControlMapping>();
 
     /**
      * Whether to use reduced redundancy storage.
@@ -149,6 +155,18 @@ public class S3PutTask extends AWSTask {
         if (contentType != null && !metadataSet) {
             metadata.setContentType(contentType);
         }
+        boolean cacheControlMetadataSet = false;
+        for (CacheControlMapping mapping : cacheControlMappings) {
+            if (fileName.endsWith(mapping.getExtension())) {
+                metadata.setCacheControl("max-age=" + mapping.getMaxAge());
+                cacheControlMetadataSet = true;
+                break;
+            }
+        }
+        //TODO: add single file metadata cache-control
+        if (cacheControl != null && !cacheControlMetadataSet) {
+        	metadata.setCacheControl("max-age=" + cacheControl);
+        }
         por.setMetadata(metadata);
     }
 
@@ -184,9 +202,24 @@ public class S3PutTask extends AWSTask {
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
+    
+    /**
+     * Set the cache control max-age=seconds
+     * 
+     * @param cacheControl
+     * @throw NumberFormatException If cache control is not a number.
+     */
+    public void setCacheControl(String cacheControl) {
+    	int intCacheControl = Integer.valueOf(cacheControl);
+    	this.cacheControl = String.valueOf(intCacheControl);
+    }
 
     public void addContentTypeMapping(ContentTypeMapping mapping) {
         contentTypeMappings.add(mapping);
+    }
+    
+    public void addCacheControlMapping(CacheControlMapping mapping) {
+    	cacheControlMappings.add(mapping);
     }
 
     public void addFileset(FileSet set) {
