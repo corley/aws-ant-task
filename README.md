@@ -64,7 +64,7 @@ by fileset directive. Your bucket rule is never touched.***
 </s3put>
 ```
 
-***Easily configure content types*** using ```contentType``` property or ```ContentTypeMapping type```
+***Easily configure content types*** using ```contentType``` property or ```ContentTypeMapping``` type
 
 Global Content-Type configuration:
 
@@ -97,7 +97,7 @@ Content-Type mappers:
 Note then when setting global content-type using `contentType` property of the `s3put` task
 and setting mapping using `contenttype.mapping`, the mapping takes precedence if given.
 
-***Easily configure cache control*** using ```cacheControl property```
+***Easily configure cache control*** using ```cacheControl``` property
 
 Global Cache-Control configuration:
 
