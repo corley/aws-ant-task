@@ -13,6 +13,7 @@
         <taskdef name="s3put" classpath="aws-ant-tasks-0.3-SNAPSHOT-bin" classname="it.corley.ant.S3PutTask"
                  classpathref="tasks.path"/>
         <typedef name="contenttype.mapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
+        <typedef name="cachecontrol.mapping" classname="it.corley.ant.CacheControlMapping" classpathref="tasks.path"/>
     </target>
 
 
@@ -23,6 +24,7 @@
                dest="aws-task-tests" region="EU" publicread="true" cacheControl="3600" contentType="application/x-readme">
             <fileset dir="." includes="README.md"/>
             <contenttypemapping extension="md" contenttype="text/plain"/>
+            <cachecontrolmapping extension="md" maxage="7200"/>
         </s3put>
 
     </target>
