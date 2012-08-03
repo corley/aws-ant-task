@@ -20,7 +20,7 @@
     <target name="use" description="Use the Task" depends="awstasks.setup">
         <property file="test.properties"/>
         <s3put key="${test.aws.access_key}" secret="${test.aws.secret_key}" bucket="${test.aws.bucket}"
-               dest="aws-task-tests" region="EU" publicread="true" contentType="application/x-readme">
+               dest="aws-task-tests" region="EU" publicread="true" cacheControl="3600" contentType="application/x-readme">
             <fileset dir="." includes="README.md"/>
             <contenttypemapping extension="md" contenttype="text/plain"/>
         </s3put>
