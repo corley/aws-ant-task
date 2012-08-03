@@ -113,6 +113,24 @@ Global Cache-Control configuration:
 </s3put>
 ```
 
+Cache-Control mappers:
+```xml
+<typedef name="cachecontrol.mapping" classname="it.corley.ant.CacheControlMapping" classpathref="tasks.path"/>
+<s3put
+    key="your-key"
+    secret="your-secret"
+    bucket="your-bucket-name"
+    dest="path/to/file"
+    contentType="application/x-whatever">
+    <fileset dir="dist" include="**/*"/>
+    <contenttypemapping extension=".crx" contenttype="application/x-chrome-extension"/>
+    <contenttypemapping extension=".xpi" contenttype="application/x-xpinstall"/>
+    <cachecontrol extension=".js" maxage="14400"/>
+    <cachecontrol extension=".css" maxage="86400"/>
+</s3put>
+
+```
+
 ### SimpleDB Task
 
 You can insert new rows into your SimpleDB domain using
