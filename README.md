@@ -64,7 +64,7 @@ by fileset directive. Your bucket rule is never touched.***
 </s3put>
 ```
 
-***Easily configure content types*** using ```contentType property or ContentTypeMapping type```
+***Easily configure content types*** using ```contentType``` property or ```ContentTypeMapping type```
 
 Global Content-Type configuration:
 
