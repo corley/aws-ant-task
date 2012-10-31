@@ -10,27 +10,13 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.StorageClass;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class S3PutTask extends AWSTask {
-
-    private static final Map<String, String> REGION_2_ENDPOINT = new HashMap<String, String>();
-
-    static {
-        REGION_2_ENDPOINT.put("EU", "s3-eu-west-1.amazonaws.com");
-        REGION_2_ENDPOINT.put("us-west-1", "s3-us-west-1.amazonaws.com");
-        REGION_2_ENDPOINT.put("us-west-2", "s3-us-west-2.amazonaws.com");
-        REGION_2_ENDPOINT.put("ap-southeast-1", "s3-ap-southeast-1.amazonaws.com");
-        REGION_2_ENDPOINT.put("ap-northeast-1", "s3-ap-northeast-1.amazonaws.com");
-        REGION_2_ENDPOINT.put("sa-east-1", "sa-east-1.amazonaws.com");
-    }
 
     /**
      * Boolean flag defining whether the put operation should set the ACL to publicly readable for each uploaded item.
@@ -86,16 +72,6 @@ public class S3PutTask extends AWSTask {
         AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
         AmazonS3 s3 = new AmazonS3Client(credential);
 
-        if (region != null) {
-            if (REGION_2_ENDPOINT.containsKey(region)) {
-                s3.setEndpoint(REGION_2_ENDPOINT.get(region));
-            } else {
-                log("Region " + region + " given but not found in the region to endpoint map. Will use it as an endpoint",
-                        Project.MSG_WARN);
-                s3.setEndpoint(region);
-            }
-        }
-        
         String path;
         if (dest == null) {
             path = "";
