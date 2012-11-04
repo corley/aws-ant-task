@@ -14,6 +14,7 @@
                  classpathref="tasks.path"/>
         <typedef name="contenttype.mapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
         <typedef name="cachecontrol.mapping" classname="it.corley.ant.CacheControlMapping" classpathref="tasks.path"/>
+    	<typedef name="contentencoding.mapping" classname="it.corley.ant.ContentEncodingMapping" classpathref="tasks.path"/>
     </target>
 
 
@@ -25,6 +26,7 @@
             <fileset dir="." includes="README.md"/>
             <contenttypemapping extension="md" contenttype="text/plain"/>
             <cachecontrolmapping extension="md" maxage="7200"/>
+        	<contentencodingmapping extension="md" encoding="UTF-8" />
         </s3put>
 
     </target>
