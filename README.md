@@ -128,7 +128,41 @@ Cache-Control mappers:
     <cachecontrol extension=".js" maxage="14400"/>
     <cachecontrol extension=".css" maxage="86400"/>
 </s3put>
+```
 
+***Easily configure content encoding*** using ```contentEncoding``` property
+
+Global Content-Encoding configuration:
+
+```xml
+<s3put
+    key="your-key"
+    secret="your-secret"
+    bucket="your-bucket-name"
+    dest="path/to/file"
+    contentType="application/x-whatever"
+    contentEncoding="UTF-8">
+    <!-- fileset structure -->
+</s3put>
+```
+
+Content-Encoding mappers:
+```xml
+<typedef name="contentencoding.mapping" classname="it.corley.ant.ContentEncodingMapping" classpathref="tasks.path"/>
+<s3put
+    key="your-key"
+    secret="your-secret"
+    bucket="your-bucket-name"
+    dest="path/to/file"
+    contentType="application/x-whatever">
+    <fileset dir="dist" include="**/*"/>
+    <contenttypemapping extension=".crx" contenttype="application/x-chrome-extension"/>
+    <contenttypemapping extension=".xpi" contenttype="application/x-xpinstall"/>
+    <cachecontrol extension=".js" maxage="14400"/>
+    <cachecontrol extension=".css" maxage="86400"/>
+    <contentencoding extension=".js" encoding="gzip"/>
+    <contentencoding extension=".css" maxage="gzip"/>
+</s3put>
 ```
 
 ### SimpleDB Task
