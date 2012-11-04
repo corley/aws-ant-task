@@ -195,6 +195,10 @@ public class S3PutTask extends AWSTask {
         this.contentType = contentType;
     }
     
+    public void setContentEncoding(String contentEncoding) {
+    	this.contentEncoding = contentEncoding;
+    }
+
     /**
      * Set the cache control max-age=seconds
      * 
@@ -212,6 +216,9 @@ public class S3PutTask extends AWSTask {
     
     public void addCacheControlMapping(CacheControlMapping mapping) {
     	cacheControlMappings.add(mapping);
+    }
+    public void addContentEncodingMapping(ContentEncodingMapping mapping) {
+    	contentEncodingMappings.add(mapping);
     }
 
     public void addFileset(FileSet set) {
