@@ -42,6 +42,8 @@ public class S3PutTask extends AWSTask {
      * Cache-Control to be set globally for each uploaded file.
      */
     private String cacheControl;
+    
+    private String contentEncoding;
 
     /**
      * Filesets containing content to be uploaded
@@ -56,6 +58,7 @@ public class S3PutTask extends AWSTask {
      */
     private List<ContentTypeMapping> contentTypeMappings = new LinkedList<ContentTypeMapping>();
     private List<CacheControlMapping> cacheControlMappings = new LinkedList<CacheControlMapping>();
+    private List<ContentEncodingMapping> contentEncodingMappings = new LinkedList<ContentEncodingMapping>();
 
     /**
      * Whether to use reduced redundancy storage.
@@ -143,6 +146,19 @@ public class S3PutTask extends AWSTask {
         if (cacheControl != null && !cacheControlMetadataSet) {
         	metadata.setCacheControl("max-age=" + cacheControl);
         }
+        
+        boolean contentEncodingMetadataSet = false;
+        for (ContentEncodingMapping mapping : contentEncodingMappings) {
+			if (fileName.endsWith(mapping.getExtension())) {
+				metadata.setContentEncoding(mapping.getEncoding());
+				contentEncodingMetadataSet = true;
+				break;
+			}
+		}
+        if (contentEncoding != null && !contentEncodingMetadataSet) {
+        	metadata.setContentEncoding(contentEncoding);
+        }
+        
         por.setMetadata(metadata);
     }
 
@@ -179,6 +195,10 @@ public class S3PutTask extends AWSTask {
         this.contentType = contentType;
     }
     
+    public void setContentEncoding(String contentEncoding) {
+    	this.contentEncoding = contentEncoding;
+    }
+
     /**
      * Set the cache control max-age=seconds
      * 
@@ -196,6 +216,9 @@ public class S3PutTask extends AWSTask {
     
     public void addCacheControlMapping(CacheControlMapping mapping) {
     	cacheControlMappings.add(mapping);
+    }
+    public void addContentEncodingMapping(ContentEncodingMapping mapping) {
+    	contentEncodingMappings.add(mapping);
     }
 
     public void addFileset(FileSet set) {
