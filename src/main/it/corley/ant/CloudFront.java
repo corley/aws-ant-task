@@ -7,6 +7,7 @@ import com.amazonaws.services.cloudfront.AmazonCloudFrontClient;
 import com.amazonaws.services.cloudfront.model.CreateInvalidationRequest;
 import com.amazonaws.services.cloudfront.model.CreateInvalidationResult;
 import com.amazonaws.services.cloudfront.model.InvalidationBatch;
+import com.amazonaws.services.cloudfront.model.Paths;
 import org.apache.tools.ant.BuildException;
 
 import java.util.Collection;
@@ -46,7 +47,7 @@ public class CloudFront extends AWSTask {
             paths.add(path);
         }
 
-        invalidationBatch.setPaths(paths);
+        invalidationBatch.setPaths(new Paths().withItems(paths));
         invalidationBatch.setCallerReference(distibutionId + String.valueOf((int) System.currentTimeMillis() / 1000));
         invalidationRequest.setInvalidationBatch(invalidationBatch);
 

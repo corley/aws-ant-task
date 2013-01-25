@@ -2,12 +2,12 @@ package it.corley.ant;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.StorageClass;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.Upload;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;
@@ -73,7 +73,7 @@ public class S3PutTask extends AWSTask {
     public void execute() {
         validateConfiguration();
         AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
-        AmazonS3 s3 = new AmazonS3Client(credential);
+        final TransferManager transferManager = new TransferManager(credential);
 
         String path;
         if (dest == null) {
@@ -102,7 +102,10 @@ public class S3PutTask extends AWSTask {
                         PutObjectRequest por = new PutObjectRequest(bucket, path + cleanFilePath, file);
 
                         applyMetadata(file, por);
-                        s3.putObject(por);
+
+                        Upload upload = transferManager.upload(por);
+                        upload.waitForUploadResult();
+
                         log("File: " + cleanFilePath + " copied to bucket: " + bucket + " destination: " + path);
                     }
                 }
@@ -110,6 +113,11 @@ public class S3PutTask extends AWSTask {
                 // directory doesn't exist or is not readable
                 log("Could not upload file(s) to Amazon S3PutTask");
                 log(be.getMessage());
+                throw be;
+            } catch (InterruptedException e) {
+                log("Upload interrupted");
+                log(e.getMessage());
+                throw new BuildException(e);
             }
         }
     }
