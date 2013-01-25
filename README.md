@@ -9,9 +9,9 @@ Features:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <project name="MyProjectName" basedir="." default="cdn-invalidation">
-	
+
 	<!-- Other ant tasks -->
-	
+
 	<target name="cdn-invalidation" description="Invalidation of static files">
         <taskdef name="cloudfront" classpath="aws-ant-task.jar" classname="it.corley.ant.CloudFront" />
         <cloudfront key="your-key" secret="your-secret-key" distributionId="your-distribution-id">
@@ -222,12 +222,13 @@ Or copy them to the `$ANT_HOME/libs` directory and use directly, without specify
 
 ## Contributors
 
-This project is maintained by Corley S.r.l. and released under MIT license. 
+This project is maintained by Corley S.r.l. and released under MIT license.
 Contributors on this project
 
  * @wdalmut
  * @stoiczek
  * Pepijn Schmitz
+ * @shalupov
 
 A special thanks goes to @stoiczek and Pepijn Schmitz who enhanced this library adding
 Maven support, major refactors and bug fixing.
