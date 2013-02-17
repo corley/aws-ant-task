@@ -2,12 +2,12 @@ package it.corley.ant;
 
 public class CacheControlMapping {
 	private String extension;
-	private String maxAge;
+	private String cacheControl;
 	
 	public CacheControlMapping() {}
-	public CacheControlMapping(String extension, String maxAge) {
+	public CacheControlMapping(String extension, String cacheControl) {
 		setExtension(extension);
-		setMaxAge(maxAge);
+		setCacheControl(cacheControl);
 	}
 	
 	public void setExtension(String extension) {
@@ -21,17 +21,14 @@ public class CacheControlMapping {
 	
 	/**
 	 * 
-	 * @param maxAge
-	 * 
-	 * throw NumberFormatException
+	 * @param cacheControl The cache-control string eg. max-age=3600
 	 */
-	public void setMaxAge(String maxAge) {
-		int intMaxAge = Integer.valueOf(maxAge);
-		this.maxAge = String.valueOf(intMaxAge);
+	public void setCacheControl(String cacheControl) {
+		this.cacheControl = cacheControl;
 	}
 	
 	public String getMaxAge()
 	{
-		return this.maxAge;
+		return this.cacheControl;
 	}
 }

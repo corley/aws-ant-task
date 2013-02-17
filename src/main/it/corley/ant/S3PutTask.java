@@ -8,8 +8,10 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.StorageClass;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 
 import java.io.File;
@@ -44,6 +46,8 @@ public class S3PutTask extends AWSTask {
     private String cacheControl;
     
     private String contentEncoding;
+    
+    private String endPoint = "s3-eu-west-1.amazonaws.com";
 
     /**
      * Filesets containing content to be uploaded
@@ -74,6 +78,8 @@ public class S3PutTask extends AWSTask {
         validateConfiguration();
         AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
         final TransferManager transferManager = new TransferManager(credential);
+        log(String.format("Region %s provided", getEndPoint()), Project.MSG_INFO);
+        transferManager.getAmazonS3Client().setEndpoint(getEndPoint());
 
         String path;
         if (dest == null) {
@@ -145,14 +151,14 @@ public class S3PutTask extends AWSTask {
         boolean cacheControlMetadataSet = false;
         for (CacheControlMapping mapping : cacheControlMappings) {
             if (fileName.endsWith(mapping.getExtension())) {
-                metadata.setCacheControl("max-age=" + mapping.getMaxAge());
+                metadata.setCacheControl(mapping.getMaxAge());
                 cacheControlMetadataSet = true;
                 break;
             }
         }
         //TODO: add single file metadata cache-control
         if (cacheControl != null && !cacheControlMetadataSet) {
-        	metadata.setCacheControl("max-age=" + cacheControl);
+        	metadata.setCacheControl(cacheControl);
         }
         
         boolean contentEncodingMetadataSet = false;
@@ -211,11 +217,9 @@ public class S3PutTask extends AWSTask {
      * Set the cache control max-age=seconds
      * 
      * @param cacheControl
-     * @throw NumberFormatException If cache control is not a number.
      */
     public void setCacheControl(String cacheControl) {
-    	int intCacheControl = Integer.valueOf(cacheControl);
-    	this.cacheControl = String.valueOf(intCacheControl);
+    	this.cacheControl = cacheControl;
     }
 
     public void addContentTypeMapping(ContentTypeMapping mapping) {
@@ -240,5 +244,13 @@ public class S3PutTask extends AWSTask {
     public void setReducedRedundancy(boolean reducedRedundancy) {
         this.reducedRedundancy = reducedRedundancy;
     }
+
+	public String getEndPoint() {
+		return endPoint;
+	}
+
+	public void setEndPoint(String endPoint) {
+		this.endPoint = endPoint;
+	}
 
 }
