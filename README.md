@@ -10,14 +10,14 @@ Features:
 <?xml version="1.0" encoding="utf-8"?>
 <project name="MyProjectName" basedir="." default="cdn-invalidation">
 
-	<!-- Other ant tasks -->
+    <!-- Other ant tasks -->
 
-	<target name="cdn-invalidation" description="Invalidation of static files">
+    <target name="cdn-invalidation" description="Invalidation of static files">
         <taskdef name="cloudfront" classpath="aws-ant-task.jar" classname="it.corley.ant.CloudFront" />
         <cloudfront key="your-key" secret="your-secret-key" distributionId="your-distribution-id">
-        	<delete path="/js/folder/my-path.js"/>
-        	<delete path="/css/folder/my-path.css"/>
-        	<delete path="/direct-gen.txt"/>
+            <delete path="/js/folder/my-path.js"/>
+            <delete path="/css/folder/my-path.css"/>
+            <delete path="/direct-gen.txt"/>
         </cloudfront>
     </target>
 </project>
@@ -29,7 +29,7 @@ Added a very simple S3 task that enable files upload
 
 ```xml
 <taskdef name="s3" classpath="aws-ant-task.jar" classname="it.corley.ant.S3PutTask" />
-<s3 key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file">
+<s3 endpoint="s3-eu-west-1.amazonaws.com" key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file">
     <fileset dir="my/dir" includes="**/*.html" />
 </s3>
 ```
@@ -38,7 +38,7 @@ File upload using default [Ant fileset](http://ant.apache.org/manual/Types/files
 
 ```xml
 <taskdef name="s3put" classpath="aws-ant-task.jar" classname="it.corley.ant.S3PutTask" />
-<s3put key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file">
+<s3put endpoint="s3-eu-west-1.amazonaws.com" key="your-key" secret="your-secret" bucket="your-bucket-name" dest="path/to/file">
   <fileset dir="${public.src}" casesensitive="yes">
     <patternset id="non.test.sources">
       <include name="**/*.js"/>
@@ -55,6 +55,7 @@ by fileset directive. Your bucket rule is never touched.***
 
 ```xml
 <s3put
+    endpoint="s3-eu-west-1.amazonaws.com"
     key="your-key"
     secret="your-secret"
     bucket="your-bucket-name"
@@ -70,6 +71,7 @@ Global Content-Type configuration:
 
 ```xml
 <s3put
+    endpoint="s3-eu-west-1.amazonaws.com"
     key="your-key"
     secret="your-secret"
     bucket="your-bucket-name"
@@ -83,6 +85,7 @@ Content-Type mappers:
 ```xml
 <typedef name="contenttypemapping" classname="it.corley.ant.ContentTypeMapping" classpathref="tasks.path"/>
 <s3put
+    endpoint="s3-eu-west-1.amazonaws.com"
     key="your-key"
     secret="your-secret"
     bucket="your-bucket-name"
@@ -103,12 +106,13 @@ Global Cache-Control configuration:
 
 ```xml
 <s3put
+    endpoint="s3-eu-west-1.amazonaws.com"
     key="your-key"
     secret="your-secret"
     bucket="your-bucket-name"
     dest="path/to/file"
     contentType="application/x-whatever"
-    cacheControl="3600">
+    cacheControl="max-age=3600">
     <!-- fileset structure -->
 </s3put>
 ```
@@ -117,6 +121,7 @@ Cache-Control mappers:
 ```xml
 <typedef name="cachecontrol.mapping" classname="it.corley.ant.CacheControlMapping" classpathref="tasks.path"/>
 <s3put
+    endpoint="s3-eu-west-1.amazonaws.com"
     key="your-key"
     secret="your-secret"
     bucket="your-bucket-name"
@@ -136,6 +141,7 @@ Global Content-Encoding configuration:
 
 ```xml
 <s3put
+    endpoint="s3-eu-west-1.amazonaws.com"
     key="your-key"
     secret="your-secret"
     bucket="your-bucket-name"
@@ -150,6 +156,7 @@ Content-Encoding mappers:
 ```xml
 <typedef name="contentencoding.mapping" classname="it.corley.ant.ContentEncodingMapping" classpathref="tasks.path"/>
 <s3put
+    endpoint="s3-eu-west-1.amazonaws.com"
     key="your-key"
     secret="your-secret"
     bucket="your-bucket-name"
