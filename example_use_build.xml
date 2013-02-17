@@ -7,7 +7,7 @@
     <!-- Task for setting up the aws-ant-tasks -->
     <target name="awstasks.setup">
         <path id="tasks.path">
-            <fileset dir="target/aws-ant-tasks-0.3-SNAPSHOT-bin" includes="*.jar"/>
+            <fileset dir="target/aws-ant-tasks-0.5-SNAPSHOT-bin" includes="*.jar"/>
         </path>
 
         <taskdef name="s3put" classpath="aws-ant-tasks-0.3-SNAPSHOT-bin" classname="it.corley.ant.S3PutTask"
@@ -21,11 +21,19 @@
     <!--Actual use -->
     <target name="use" description="Use the Task" depends="awstasks.setup">
         <property file="test.properties"/>
-        <s3put key="${test.aws.access_key}" secret="${test.aws.secret_key}" bucket="${test.aws.bucket}"
-               dest="aws-task-tests" publicread="true" cacheControl="3600" contentType="application/x-readme">
+        <s3put 
+            endpoint="s3-eu-west-1.amazonaws.com" 
+            key="${test.aws.access_key}" 
+            secret="${test.aws.secret_key}"
+            bucket="${test.aws.bucket}"
+            dest="aws-task-tests" 
+            publicread="true" 
+            cacheControl="3600" 
+            contentType="application/x-readme">
+            
             <fileset dir="." includes="README.md"/>
             <contenttypemapping extension="md" contenttype="text/plain"/>
-            <cachecontrolmapping extension="md" maxage="7200"/>
+            <cachecontrolmapping extension="md" cacheControl="max-age=7200"/>
         	<contentencodingmapping extension="md" encoding="UTF-8" />
         </s3put>
 
