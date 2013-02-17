@@ -47,7 +47,7 @@ public class S3PutTask extends AWSTask {
     
     private String contentEncoding;
     
-    private String endPoint = "s3-euwest-1.amazonaws.com";
+    private String endPoint = "s3-eu-west-1.amazonaws.com";
 
     /**
      * Filesets containing content to be uploaded
