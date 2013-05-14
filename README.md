@@ -20,6 +20,13 @@ Features:
             <delete path="/direct-gen.txt"/>
         </cloudfront>
     </target>
+
+    <target name="cdn-invalidation-through-list" description="Invalidation of static files">
+        <taskdef name="cloudfront" classpath="aws-ant-task.jar" classname="it.corley.ant.CloudFront" />
+        <cloudfront key="your-key" secret="your-secret-key" distributionId="your-distribution-id"
+                    pathsString="www/css/home.css,www/css/main.css" />
+    </target>
+
 </project>
 ```
 
