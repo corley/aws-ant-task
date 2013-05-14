@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="MyTask" basedir="." default="use">
+
+    <property name="test.aws.access_key" value="*******************" />
+    <property name="test.aws.secret_key" value="*******************" />
+    <property name="test.aws.bucket" value="*******************" />
+    <property name="test.aws.distributionId" value="*******************" />
+    <property name="test.aws.jar" value="*******************" />
+    <property name="test.aws.somefile" value="*******************" />
+
+    <taskdef name="cloudfront" classpath="${test.aws.jar}" classname="it.corley.ant.CloudFront" />
+
+    <target name="use" description="Use the Task">
+        <echo>Invalidation of cloudfront: file: ${test.aws.somefile}</echo>
+        <cloudfront key="${test.aws.access_key}" secret="${test.aws.secret_key}" distributionId="${test.aws.distributionId}">
+            <delete path="${test.aws.somefile}"/>
+        </cloudfront>
+    </target>
+
+</project>

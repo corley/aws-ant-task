@@ -41,13 +41,19 @@ public class CloudFront extends AWSTask {
         InvalidationBatch invalidationBatch = new InvalidationBatch();
 
         Collection<String> paths = new Vector<String>();
-        for (int i = 0; i < this.delete.size(); i++) {
+        int pathsSize = this.delete.size();
+        for (int i = 0; i < pathsSize; i++) {
             String path = this.delete.get(i).getPath();
             log("Invalidation for path: " + this.delete.get(i).getPath());
             paths.add(path);
         }
 
-        invalidationBatch.setPaths(new Paths().withItems(paths));
+        log("complete creating paths list total item to invalidate: " + pathsSize);
+
+        Paths pathsList = new Paths().withItems(paths);
+        pathsList.setQuantity(pathsSize);
+
+        invalidationBatch.setPaths(pathsList);
         invalidationBatch.setCallerReference(distibutionId + String.valueOf((int) System.currentTimeMillis() / 1000));
         invalidationRequest.setInvalidationBatch(invalidationBatch);
 
