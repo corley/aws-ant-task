@@ -29,6 +29,7 @@ public class AWSTask extends Task {
         this.key = key;
     }
 
+
     public void setSecret(String secret) {
         this.secret = secret;
     }
