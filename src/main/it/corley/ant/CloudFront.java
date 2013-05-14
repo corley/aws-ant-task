@@ -15,12 +15,17 @@ import java.util.Vector;
 
 public class CloudFront extends AWSTask {
     private String distibutionId;
+    private String pathsString = "\0";
     boolean fail = false;
 
     Vector<Delete> delete = new Vector<Delete>();
 
     public void setDistributionId(String distributionId) {
         this.distibutionId = distributionId;
+    }
+
+    public void setPathsString(String pathsString) {
+        this.pathsString = pathsString;
     }
 
     public void setFail(boolean b) {
@@ -41,13 +46,33 @@ public class CloudFront extends AWSTask {
         InvalidationBatch invalidationBatch = new InvalidationBatch();
 
         Collection<String> paths = new Vector<String>();
-        for (int i = 0; i < this.delete.size(); i++) {
-            String path = this.delete.get(i).getPath();
-            log("Invalidation for path: " + this.delete.get(i).getPath());
-            paths.add(path);
+        int pathsSize;
+        int i;
+        String path;
+
+        if (pathsString != "\0") {
+            String[] parts = pathsString.split(",");
+            pathsSize = parts.length;
+            for (i = 0; i < pathsSize; i++) {
+                path = parts[i];
+                log("Invalidation for path: " + path);
+                paths.add(path);
+            }
+        } else {
+            pathsSize = this.delete.size();
+            for (i = 0; i < pathsSize; i++) {
+                path = this.delete.get(i).getPath();
+                log("Invalidation for path: " + this.delete.get(i).getPath());
+                paths.add(path);
+            }
         }
 
-        invalidationBatch.setPaths(new Paths().withItems(paths));
+        log("complete creating paths list total item to invalidate: " + pathsSize);
+
+        Paths pathsList = new Paths().withItems(paths);
+        pathsList.setQuantity(pathsSize);
+
+        invalidationBatch.setPaths(pathsList);
         invalidationBatch.setCallerReference(distibutionId + String.valueOf((int) System.currentTimeMillis() / 1000));
         invalidationRequest.setInvalidationBatch(invalidationBatch);
 

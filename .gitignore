@@ -9,3 +9,4 @@ bin
 target
 *.iml
 test.properties
+.DS_Store

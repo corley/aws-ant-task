@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="MyTask" basedir="." default="delete-pathsString">
+
+    <property name="test.aws.access_key" value="your-value-here" />
+    <property name="test.aws.secret_key" value="your-value-here" />
+    <property name="test.aws.bucket" value="your-value-here" />
+    <property name="test.aws.distributionId" value="your-value-here" />
+    <property name="test.aws.jar" value="your-value-here" />
+
+    <taskdef name="cloudfront" classpath="${test.aws.jar}" classname="it.corley.ant.CloudFront" />
+
+    <!-- you can pass a paths string -->
+    <target name="delete-pathsString" description="Use the Task">
+        <cloudfront key="${test.aws.access_key}" secret="${test.aws.secret_key}" distributionId="${test.aws.distributionId}"
+                    pathsString="www/css/home.css,www/css/main.css">
+        </cloudfront>
+    </target>
+
+    <!-- or you pass a declarative paths through delete tags -->
+    <target name="delete-declarative" description="Use the Task">
+        <echo>Invalidation of cloudfront: file: ${test.aws.somefile}</echo>
+        <cloudfront key="${test.aws.access_key}" secret="${test.aws.secret_key}" distributionId="${test.aws.distributionId}">
+            <delete path="www/css/home.css"/>
+            <delete path="www/css/main.css"/>
+        </cloudfront>
+    </target>
+
+</project>
