@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: it.corley.ant
+Main-Class: CloudFront
+
