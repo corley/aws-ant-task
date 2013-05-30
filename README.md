@@ -245,6 +245,7 @@ Contributors on this project
  * @stoiczek
  * Pepijn Schmitz
  * @shalupov
+ * @EladElrom
 
 A special thanks goes to @stoiczek and Pepijn Schmitz who enhanced this library adding
 Maven support, major refactors and bug fixing.
