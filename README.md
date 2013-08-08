@@ -177,7 +177,7 @@ Content-Encoding mappers:
     <cachecontrol extension=".js" maxage="14400"/>
     <cachecontrol extension=".css" maxage="86400"/>
     <contentencoding extension=".js" encoding="gzip"/>
-    <contentencoding extension=".css" maxage="gzip"/>
+    <contentencoding extension=".css" encoding="gzip"/>
 </s3put>
 ```
 
