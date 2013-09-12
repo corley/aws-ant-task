@@ -193,6 +193,20 @@ You can insert new rows into your SimpleDB domain using
 </simpledb>
 ```
 
+You can replace existing rows into your SimpleDB domain using
+
+```xml
+<taskdef name="simpledb" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.SimpleDB" />
+<simpledb key="your-key" secret="your-secret" domain="your-domain" region="your-sdb-region">
+    <attribute name="itemName()" value="my first value" />
+    <attribute name="another_property" value="new value for this property" />
+    <attribute name="yet_another_property" value="new value for this property" append="true" />
+</simpledb>
+```
+
+By default the attribute values for the row will be replaced. Add ```append="true"``` to your
+attribute to append the value, instead of overwriting it.
+
 You have to download the latest ```aws-ant-task.jar``` binary file and add it
 into your project. Configure a new task as previous example.
 

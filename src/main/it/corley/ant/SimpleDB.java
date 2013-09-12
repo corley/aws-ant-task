@@ -48,23 +48,35 @@ public class SimpleDB extends AWSTask {
 
         Collection<ReplaceableAttribute> attrs = new Vector<ReplaceableAttribute>();
 
-        for (int i = 0; i < attributes.size(); i++) {
-            ReplaceableAttribute at = new ReplaceableAttribute();
-            at.setName(attributes.get(i).getName());
-            at.setValue(attributes.get(i).getValue());
-
-            attrs.add(at);
+        for (Attribute attribute : attributes) {
+            if (!attribute.isItemName()) {
+                ReplaceableAttribute at = new ReplaceableAttribute();
+                at.setName(attribute.getName());
+                at.setValue(attribute.getValue());
+                at.setReplace(!attribute.getAppend());
+                attrs.add(at);
+            }
         }
 
         PutAttributesRequest request = new PutAttributesRequest();
         request.setDomainName(domain);
         request.setAttributes(attrs);
 
-        Date date = new Date();
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddkkmmss");
-        request.setItemName(dateformat.format(date));
+        final String itemName = getItemName(attributes);
+        request.setItemName(itemName);
 
         simpledb.putAttributes(request);
+    }
+
+    private String getItemName(Vector<Attribute> attributes) {
+        for (Attribute attribute : attributes) {
+            if (attribute.isItemName())
+                return attribute.getValue();
+        }
+
+        Date date = new Date();
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddkkmmss");
+        return dateformat.format(date);
     }
 
     public void setFail(boolean fail) {
@@ -85,9 +97,10 @@ public class SimpleDB extends AWSTask {
     public class Attribute {
         private String value;
         private String name;
+        private boolean append;
 
         public Attribute() {
-
+          append = false;
         }
 
         public String getValue() {
@@ -104,6 +117,18 @@ public class SimpleDB extends AWSTask {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public boolean getAppend() {
+            return append;
+        }
+
+        public void setAppend(boolean append) {
+            this.append = append;
+        }
+
+        public boolean isItemName() {
+            return "itemName()".equals(name);
         }
     }
 }
