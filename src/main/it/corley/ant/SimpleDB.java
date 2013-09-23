@@ -34,8 +34,7 @@ public class SimpleDB extends AWSTask {
     public void execute() {
         if (fail) throw new BuildException("Fail requested.");
 
-        AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
-        AmazonSimpleDB simpledb = new AmazonSimpleDBClient(credential);
+        AmazonSimpleDB simpledb = new AmazonSimpleDBClient(getCredentials());
         if (region != null) {
             if (REGION_2_ENDPOINT.containsKey(region)) {
                 simpledb.setEndpoint(REGION_2_ENDPOINT.get(region));

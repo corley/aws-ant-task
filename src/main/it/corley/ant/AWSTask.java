@@ -1,5 +1,9 @@
 package it.corley.ant;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProviderChain;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import org.apache.tools.ant.Task;
 
 
@@ -29,7 +33,6 @@ public class AWSTask extends Task {
         this.key = key;
     }
 
-
     public void setSecret(String secret) {
         this.secret = secret;
     }
@@ -44,5 +47,16 @@ public class AWSTask extends Task {
 
     protected String getSecret() {
         return this.secret;
+    }
+
+    protected AWSCredentials getCredentials() {
+        if (this.key == null || this.key.length() == 0 ||
+                this.secret == null || this.secret.length() == 0) {
+            log("Using default AWS credentials provider chain (ignoring credentials from ant build file)");
+            return new DefaultAWSCredentialsProviderChain().getCredentials();
+        } else {
+            log("Using credentials from ant build file");
+            return new BasicAWSCredentials(this.key, this.secret);
+        }
     }
 }

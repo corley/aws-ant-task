@@ -37,8 +37,7 @@ public class CloudFront extends AWSTask {
 
         log("Executing invalidation for key : " + this.getKey() + " on distribution id: " + this.distibutionId);
 
-        AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
-        AmazonCloudFront front = new AmazonCloudFrontClient(credential);
+        AmazonCloudFront front = new AmazonCloudFrontClient(getCredentials());
 
         CreateInvalidationRequest invalidationRequest = new CreateInvalidationRequest();
         invalidationRequest.setDistributionId(distibutionId);
