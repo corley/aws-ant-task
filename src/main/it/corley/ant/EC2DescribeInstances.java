@@ -38,8 +38,7 @@ public class EC2DescribeInstances extends AWSTask {
     public void execute() {
         validateConfiguration();
 
-        AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
-        AmazonEC2Client ec2Client = new AmazonEC2Client(credential);
+        AmazonEC2Client ec2Client = new AmazonEC2Client(getCredentials());
 
         if (region != null) {
             String endpoint = getEndpoint();
