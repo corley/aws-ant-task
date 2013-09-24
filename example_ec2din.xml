@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="MyTask" basedir="." default="example-using-for">
+
+    <property name="test.aws.access_key" value="your-value-here" />
+    <property name="test.aws.secret_key" value="your-value-here" />
+    <property name="test.aws.jar" value="your-value-here" />
+
+    <taskdef name="ec2din" classpath="${test.aws.jar}" classname="it.corley.ant.EC2DescribeInstances" />
+
+    <target name="example-using-for">
+        <for param="val">
+            <ec2din key="${test.aws.access_key}" secret="${test.aws.secret_key}" region="EU" select="dns-name">
+                <filter name="tag:Name">
+                    <value>instance name</value>
+                </filter>
+            </ec2din>
+            <sequential>
+                <echo message="instance public DNS: @{val}"/>
+            </sequential>
+        </for>
+    </target>
+
+    <target name="example-using-for-single">
+        <for param="val">
+            <ec2din key="${test.aws.access_key}" secret="${test.aws.secret_key}" region="EU" select="ip-address">
+                <filter name="tag:Name" value="single value"/>
+            </ec2din>
+            <sequential>
+                <echo message="instance public DNS: @{val}"/>
+            </sequential>
+        </for>
+    </target>
+
+    <target name="example-using-for-multiple">
+        <for param="val">
+            <ec2din key="${test.aws.access_key}" secret="${test.aws.secret_key}" region="EU" select="instance-id">
+                <filter name="tag:Name">
+                    <value>multiple</value>
+                    <value>values</value>
+                </filter>
+            </ec2din>
+            <sequential>
+                <echo message="instance ID: @{val}"/>
+            </sequential>
+        </for>
+    </target>
+
+    <target name="filters-support-wildcards">
+        <for param="val">
+            <ec2din key="${test.aws.access_key}" secret="${test.aws.secret_key}" region="EU" select="instance-id">
+                <filter name="tag:Name">
+                    <value>wildcard-to-the-right-*</value>
+                </filter>
+            </ec2din>
+            <sequential>
+                <echo message="instance ID: @{val}"/>
+            </sequential>
+        </for>
+    </target>
+
+</project>
