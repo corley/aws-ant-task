@@ -76,7 +76,7 @@ public class S3PutTask extends AWSTask {
      */
     public void execute() {
         validateConfiguration();
-        AWSCredentials credential = new BasicAWSCredentials(getKey(), getSecret());
+        AWSCredentials credential = getCredentials();
         final TransferManager transferManager = new TransferManager(credential);
         log(String.format("Region %s provided", getEndPoint()), Project.MSG_INFO);
         transferManager.getAmazonS3Client().setEndpoint(getEndPoint());
