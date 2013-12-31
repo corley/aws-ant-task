@@ -1,11 +1,8 @@
 package it.corley.ant;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.*;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.PropertyHelper;
 
 import java.util.*;
 
@@ -114,11 +111,6 @@ public class EC2DescribeInstances extends AWSTask {
 
     private void validateConfiguration() {
         // we don't really need to validate anything...
-    }
-
-    protected void addProperty(String propertyName, Object value) {
-        PropertyHelper ph = PropertyHelper.getPropertyHelper(getProject());
-        ph.setNewProperty(propertyName, value);
     }
 
     /**
