@@ -1,7 +1,6 @@
 package it.corley.ant;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProviderChain;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import org.apache.tools.ant.Task;
@@ -13,6 +12,8 @@ import org.apache.tools.ant.Task;
  * @author TODO
  */
 public class AWSTask extends Task {
+
+    protected final String DEFAULT_END_POINT = "s3-eu-west-1.amazonaws.com";
 
     /**
      * AWS access key.

@@ -181,6 +181,16 @@ Content-Encoding mappers:
 </s3put>
 ```
 
+***Easily download a file from S3 ***
+
+```xml
+<taskdef name="s3get" classpath="aws-ant-task.jar" classname="it.corley.ant.S3GetTask" />
+<s3get endpoint="s3-eu-west-1.amazonaws.com"
+       key="your-key" secret="your-secret"
+       bucket="your-bucket-name" src="path/to/file"
+       dest="path/to/file" />
+```
+
 ### SimpleDB Task
 
 You can insert new rows into your SimpleDB domain using
