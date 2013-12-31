@@ -1,14 +1,12 @@
 package it.corley.ant;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.StorageClass;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
@@ -47,7 +45,7 @@ public class S3PutTask extends AWSTask {
     
     private String contentEncoding;
     
-    private String endPoint = "s3-eu-west-1.amazonaws.com";
+    private String endPoint = DEFAULT_END_POINT;
 
     /**
      * Filesets containing content to be uploaded
