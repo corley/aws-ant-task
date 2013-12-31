@@ -263,13 +263,9 @@ Or copy them to the `$ANT_HOME/libs` directory and use directly, without specify
 ## Contributors
 
 This project is maintained by Corley S.r.l. and released under MIT license.
-Contributors on this project
+A special thanks goes to our contributors! Thanks guys!
 
- * @wdalmut
- * @stoiczek
- * Pepijn Schmitz
- * @shalupov
- * @EladElrom
+https://github.com/corley/aws-ant-task/graphs/contributors
 
-A special thanks goes to @stoiczek and Pepijn Schmitz who enhanced this library adding
-Maven support, major refactors and bug fixing.
+Feel free to contribute to this project with your requests and pull requests!
+
