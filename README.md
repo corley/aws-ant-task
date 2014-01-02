@@ -181,7 +181,7 @@ Content-Encoding mappers:
 </s3put>
 ```
 
-***Easily download a file from S3 ***
+***Easily download a file from S3***
 
 ```xml
 <taskdef name="s3get" classpath="aws-ant-task.jar" classname="it.corley.ant.S3GetTask" />
@@ -193,7 +193,22 @@ Content-Encoding mappers:
 
 ### SimpleDB Task
 
-You can insert new rows into your SimpleDB domain using
+***Read attributes from a row*** in your SimpleDB domain using
+
+```xml
+<taskdef name="simpledbget" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.SimpleDBGetTask" />
+<simpledbget key="your-key" secret="your-secret" 
+             domain="your-domain" region="your-sdb-region" 
+             itemName="1234" attributes="my_property,another_property" 
+             propertyprefix="row" />
+
+<echo message="my_property=${row.my_property}" />
+<echo message="another_property=${row.another_property}." />
+```
+
+This task will fail if an unknown item name or attribute is used.
+
+***Insert new rows*** into your SimpleDB domain using
 
 ```xml
 <taskdef name="simpledb" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.SimpleDB" />

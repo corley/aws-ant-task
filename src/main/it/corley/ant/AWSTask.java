@@ -3,6 +3,7 @@ package it.corley.ant;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import org.apache.tools.ant.PropertyHelper;
 import org.apache.tools.ant.Task;
 
 
@@ -59,5 +60,10 @@ public class AWSTask extends Task {
             log("Using credentials from ant build file");
             return new BasicAWSCredentials(this.key, this.secret);
         }
+    }
+
+    protected void addProperty(String propertyName, Object value) {
+        PropertyHelper ph = PropertyHelper.getPropertyHelper(getProject());
+        ph.setNewProperty(propertyName, value);
     }
 }
