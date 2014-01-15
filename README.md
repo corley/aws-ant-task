@@ -139,8 +139,8 @@ Cache-Control mappers:
     <fileset dir="dist" include="**/*"/>
     <contenttypemapping extension=".crx" contenttype="application/x-chrome-extension"/>
     <contenttypemapping extension=".xpi" contenttype="application/x-xpinstall"/>
-    <cachecontrol extension=".js" maxage="14400"/>
-    <cachecontrol extension=".css" maxage="86400"/>
+    <cachecontrolmapping extension=".js" maxage="14400"/>
+    <cachecontrolmapping extension=".css" maxage="86400"/>
 </s3put>
 ```
 
@@ -174,8 +174,8 @@ Content-Encoding mappers:
     <fileset dir="dist" include="**/*"/>
     <contenttypemapping extension=".crx" contenttype="application/x-chrome-extension"/>
     <contenttypemapping extension=".xpi" contenttype="application/x-xpinstall"/>
-    <cachecontrol extension=".js" maxage="14400"/>
-    <cachecontrol extension=".css" maxage="86400"/>
+    <cachecontrolmapping extension=".js" maxage="14400"/>
+    <cachecontrolmapping extension=".css" maxage="86400"/>
     <contentencoding extension=".js" encoding="gzip"/>
     <contentencoding extension=".css" encoding="gzip"/>
 </s3put>
@@ -197,9 +197,9 @@ Content-Encoding mappers:
 
 ```xml
 <taskdef name="simpledbget" classpath="aws-ant-task-${version}.jar" classname="it.corley.ant.SimpleDBGetTask" />
-<simpledbget key="your-key" secret="your-secret" 
-             domain="your-domain" region="your-sdb-region" 
-             itemName="1234" attributes="my_property,another_property" 
+<simpledbget key="your-key" secret="your-secret"
+             domain="your-domain" region="your-sdb-region"
+             itemName="1234" attributes="my_property,another_property"
              propertyprefix="row" />
 
 <echo message="my_property=${row.my_property}" />
