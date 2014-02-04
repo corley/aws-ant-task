@@ -59,8 +59,9 @@ public class S3GetTask extends AWSTask {
 
   private void downloadFile(GetObjectRequest request, File outputFile) {
     log(String.format("Downloading '%s/%s' to '%s'", request.getBucketName(), request.getKey(), outputFile.getName()), Project.MSG_INFO);
+    TransferManager transferManager = null;
     try {
-      TransferManager transferManager = getTransferManager();
+      transferManager = getTransferManager();
       Download download = transferManager.download(request, outputFile);
       download.addProgressListener(getProgressListener());
       download.waitForCompletion();
@@ -68,6 +69,10 @@ public class S3GetTask extends AWSTask {
       log("Download interrupted");
       log(e.getMessage());
       throw new BuildException(e);
+    } finally {
+      if (transferManager != null) {
+        transferManager.shutdownNow();
+      }
     }
   }
 
